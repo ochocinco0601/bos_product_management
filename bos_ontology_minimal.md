@@ -1,0 +1,21 @@
+# Business Observability Ontology (Minimal Model)
+
+This document defines the foundational terms used in the Business Observability System (BOS) and their relationships.
+
+---
+
+## Core Concepts
+
+| **Term**           | **Definition**                                                                                   | **Relationships**                                                                                  | **Notes / Clarifications**                                                                                     |
+|--------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| **Business Flow**     | A high-level sequence of activities that delivers a business outcome.                             | Composed of `Stages`; aggregates `KPIs`; referenced in `Views`                                     | Often aligned with major value streams or LOB outcomes (e.g., Origination to Funding)                           |
+| **Stage**             | A logical grouping of business steps based on purpose, process phase, or organizational boundary. | Part of a `Business Flow`; contains `Steps`                                                        | Used to organize related steps and simplify communication                                                       |
+| **Step**              | A discrete business or system activity with measurable outcomes or signals.                       | Belongs to one `Stage`; maps to one or more `Observable Units`; emits `Signals`                    | Smallest business-meaningful unit; where most business SLIs/KPIs are traced                                     |
+| **Observable Unit**   | Any independently observable component (e.g., service, function, module) that emits signals.       | Powers one or more `Steps`; emits `Signals`; supports `SLIs` and `SLOs`; may carry `Tags`          | Core abstraction layer for observability; not limited to services; inclusive of real-world systems              |
+| **Signal**            | An emitted metric, event, or trace from an `Observable Unit`, used to assess the health of a `Step`. | Originates from an `Observable Unit`; consumed by `Steps`; aggregated into `KPI` or `SLI`          | Includes latency, error rate, custom business signals                                                           |
+| **SLI**               | A defined measurement of performance (e.g., latency, availability, error rate).                    | Belongs to an `Observable Unit`; used to assess `SLO` compliance; may roll up to `Step` or `Flow`  | Service-level indicator for technical or business-relevant performance                                          |
+| **SLO**               | A reliability target (e.g., 99.9% success over 30 days) for an `Observable Unit` or `Step`.        | Contracted on an `Observable Unit`; aggregates `SLIs`; supports reliability decisions              | Used for alerting, monitoring, and SRE accountability                                                            |
+| **KPI**               | A business performance metric (e.g., approval rate, fulfillment time).                            | Aggregates `Signals` from `Steps`; tied to `Flows`, `Stages`, or `Views`                           | Key performance indicators for internal and customer outcomes                                                   |
+| **View**              | A role-specific perspective of BOS data for reporting or action.                                 | References any `Flow`, `Stage`, or `Step`; filtered by `Persona`, `LOB`, or `Use Case`             | Supports dashboarding, start-of-day health checks, incident command, etc.                                       |
+| **Persona**           | The stakeholder role consuming observability data (e.g., Executive, SRE, Ops Manager).             | Informs `View` construction; shapes `Step` or `Flow` definitions                                   | Enables multi-role access to the same structured data                                                           |
+
