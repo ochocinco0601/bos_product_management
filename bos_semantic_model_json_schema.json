@@ -1,0 +1,523 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Business Observability System (BOS) Step Template",
+  "description": "Semantic model for stakeholder-first business observability discovery",
+  
+  "_documentation": {
+    "overview": "This schema enables systematic business observability design using stakeholder-first discovery methodology. It transforms abstract business impact requirements into concrete, measurable technical implementation.",
+    
+    "core_problem": {
+      "description": "Current approach of discovering business impact during incidents creates communication delays and response prioritization failures",
+      "enterprise_context": {
+        "scale": "Large financial enterprise with 1000+ business applications across multiple lines of business (home lending, automotive loans, credit cards)",
+        "users": "Hundreds of product owners with varying expertise levels (75% business-focused, 25% technical)",
+        "current_state": "No existing systematic process for documenting business impact - teams scramble during incidents to identify stakeholders, research dependencies, and find domain experts",
+        "objective": "Pre-design business observability into software development lifecycle to enable immediate incident impact communication"
+      }
+    },
+    
+    "stakeholder_first_methodology": {
+      "principle": "Product owners must identify WHO depends before determining WHAT impacts occur to ensure meaningful business observability",
+      "rationale": "Without knowing stakeholder dependencies, teams cannot systematically design measurable business impact indicators. You cannot instrument what you haven't identified as needing measurement.",
+      "discovery_sequence": "WHO depends on this step → WHAT they need/expect/require → WHAT breaks when step fails → WHAT telemetry must exist to detect impact → WHAT signals to instrument in Observable Units"
+    },
+    
+    "observability_design_chain": {
+      "description": "Reusable mental framework for any business observability challenge",
+      "chain": [
+        "WHO depends on this step",
+        "WHAT they need/expect/require", 
+        "WHAT breaks when step fails",
+        "WHAT telemetry must exist to detect impact",
+        "WHAT signals to instrument in Observable Units"
+      ],
+      "application": "This systematic methodology transforms abstract observability requirements into concrete technical implementation by making stakeholder identification discoverable and connecting business value to technical function"
+    },
+    
+    "stakeholder_categories": {
+      "people": {
+        "description": "Internal or external, human customers, users, employees, agents",
+        "examples": ["loan applicants", "customer service agents", "loan officers", "compliance staff"]
+      },
+      "business_entities": {
+        "description": "Organizational or transactional entities including business objects and regulatory requirements",
+        "examples": ["mortgage applications", "customer accounts", "compliance requirements", "loan portfolios"]
+      },
+      "vendors": {
+        "description": "Third-party dependencies and integrations",
+        "examples": ["credit bureaus", "document delivery services", "fraud detection providers", "payment processors"]
+      }
+    },
+    
+    "impact_categories": {
+      "description": "Four measurable impact categories that can be instrumented via system telemetry",
+      "financial": {
+        "description": "Money movement, transactions, revenue impact that systems can track",
+        "examples": ["transaction failures", "revenue loss", "processing cost increases", "application abandonment"]
+      },
+      "legal_compliance": {
+        "description": "Regulatory violations, compliance check failures, risk thresholds that systems can detect",
+        "examples": ["disclosure deadline violations", "regulatory reporting gaps", "compliance check failures"]
+      },
+      "operational": {
+        "description": "Process performance, throughput, efficiency metrics that systems can measure", 
+        "examples": ["processing delays", "manual intervention increases", "SLA violations", "productivity loss"]
+      },
+      "customer_experience": {
+        "description": "User interaction quality, satisfaction metrics that systems can observe",
+        "examples": ["response time degradation", "error rates", "session abandonment", "support call increases"]
+      }
+    },
+    
+    "validation_framework": {
+      "description": "Traceability test methodology to validate template completeness",
+      "trace_test": "For any business step example, stakeholders should be able to start at any point in the model and follow visual connections to see the complete chain, identifying missing elements if the trace breaks or dead-ends",
+      "validation_paths": {
+        "forward_validation": "Stakeholders → Impact Categories → Signal Types → Signals → Measurable Impact → Business Consequences",
+        "backward_validation": "Business Consequences → Identifies which specific stakeholder groups are affected",
+        "incident_readiness": "Technical Failure → Step Impact → Stakeholder Effects → Measurable Impact Categories → Executive-ready Business Consequences"
+      },
+      "completeness_criteria": [
+        "Every stakeholder type has identified dependencies",
+        "Every impact category has measurement signals", 
+        "Every signal connects to observable units",
+        "Incident narrative can be generated from template data"
+      ]
+    },
+    
+    "persona_responsibilities": {
+      "product_owner": {
+        "scope": "Business flow, stakeholder identification, impact analysis, business value definition",
+        "key_responsibility": "Populate stakeholder-first discovery fields using systematic methodology",
+        "expertise_requirement": "Business domain knowledge (technical expertise not required)"
+      },
+      "development": {
+        "scope": "Technical implementation, observable unit definition, process signal design",
+        "key_responsibility": "Map business steps to technical components and workflow signals",
+        "expertise_requirement": "System architecture and implementation knowledge"
+      },
+      "platform_sre": {
+        "scope": "System health, infrastructure context, system signal design",
+        "key_responsibility": "Ensure foundational systems are observable and platform context is captured",
+        "expertise_requirement": "Infrastructure and platform operations knowledge"
+      },
+      "bos_system": {
+        "scope": "Validation, pattern enforcement, KPI generation",
+        "key_responsibility": "Systematic validation and structural completeness checking",
+        "automation": "Validates traceability, generates KPIs from signals, enforces ontology relationships"
+      }
+    },
+    
+    "implementation_guidance": {
+      "form_generation": {
+        "product_owner_fields": "Generate guided discovery forms with examples and prompts for each stakeholder category and impact type",
+        "development_fields": "Create structured forms for observable unit tagging and process signal definition",
+        "platform_sre_fields": "Provide system signal and infrastructure context forms",
+        "validation_integration": "Include real-time validation feedback using BOS system fields"
+      },
+      "validation_implementation": {
+        "trace_checking": "Implement validation that can trace from stakeholders through impact categories to measurable signals",
+        "completeness_scoring": "Calculate percentage completion across required fields and relationships",
+        "pattern_validation": "Check observable unit signals against expected patterns based on type tags"
+      },
+      "incident_narrative_generation": {
+        "template": "When {observable_unit} fails, {affected_stakeholders} cannot {expected_dependencies}, resulting in {measurable_impacts} across {impact_categories}",
+        "data_sources": "Combine real-time signal data with pre-defined stakeholder and impact information",
+        "executive_communication": "Generate business consequences that connect technical failure to stakeholder effects to measurable business impacts"
+      }
+    },
+    
+    "example_methodology_application": {
+      "scenario": "Customer logs in to view the status of their online mortgage application",
+      "stakeholder_identification": {
+        "people": ["mortgage applicant (customer)", "customer service agents"],
+        "business_entities": ["mortgage application (status accuracy)", "customer account"],
+        "vendors": ["authentication service provider", "third-party credit monitoring"]
+      },
+      "dependency_mapping": {
+        "people_expect": "Current, accurate application status and next steps; ability to provide customer support",
+        "entities_require": "Status updates reflected accurately in system; secure access maintained",
+        "vendors_require": "Authentication responses within SLA; status data for credit monitoring"
+      },
+      "impact_analysis": {
+        "financial": "Application abandonment if status unavailable",
+        "legal_compliance": "Customer transparency requirements",
+        "operational": "Customer service call volume increase",
+        "customer_experience": "Portal usability degradation, status accessibility issues"
+      },
+      "measurement_signals": "Login success rate, portal response time, status retrieval latency, customer service call volume",
+      "incident_narrative": "Customer portal login failures preventing 847 applicants from checking status, customer service calls up 156%, portal response time degraded to 8 seconds"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "bos_step": {
+      "type": "object",
+      "description": "Complete business observability step definition",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "step_id": {
+              "type": "string",
+              "description": "Unique identifier for this step"
+            },
+            "flow_name": {
+              "type": "string", 
+              "description": "Business flow this step belongs to"
+            },
+            "stage_name": {
+              "type": "string",
+              "description": "Stage within the business flow"
+            },
+            "step_name": {
+              "type": "string",
+              "description": "Name of this specific business step"
+            },
+            "step_owner": {
+              "type": "string",
+              "description": "Product owner responsible for this step"
+            },
+            "last_modified": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        
+        "operational_description": {
+          "type": "string",
+          "description": "Field 1: What we do in this step - internal process, validations, decisions",
+          "examples": ["Parse uploaded income documents using OCR, extract structured income data, and forward to rule engine for policy validation"]
+        },
+        
+        "stakeholders": {
+          "type": "object",
+          "description": "Fields 2 & 3: WHO depends on this step",
+          "properties": {
+            "people": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Customers, users, employees, agents who interact with this step",
+              "examples": [["loan applicants", "loan officers", "customer service agents"]]
+            },
+            "business_entities": {
+              "type": "array", 
+              "items": {
+                "type": "string"
+              },
+              "description": "Business objects, regulatory requirements that depend on this step",
+              "examples": [["mortgage applications", "compliance requirements", "loan portfolios"]]
+            },
+            "vendors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Third-party integrations, vendor dependencies",
+              "examples": [["credit bureaus", "document delivery service", "fraud detection service"]]
+            }
+          }
+        },
+        
+        "dependencies": {
+          "type": "object", 
+          "description": "Field 4: WHAT dependencies expect to get",
+          "properties": {
+            "people_expect": {
+              "type": "string",
+              "description": "What people expect to receive, accomplish, or have happen",
+              "examples": ["timely loan decisions, clear status updates, ability to check application progress"]
+            },
+            "entities_require": {
+              "type": "string", 
+              "description": "What business entities require for compliance, accuracy, state management",
+              "examples": ["verified income documentation, regulatory compliance, accurate loan status"]
+            },
+            "vendors_require": {
+              "type": "string",
+              "description": "What vendors need for SLA compliance, integration responses, data delivery", 
+              "examples": ["income data for credit decisions, API response within SLA, structured data format"]
+            }
+          }
+        },
+        
+        "impact_categories": {
+          "type": "object",
+          "description": "Field 5: Impact when this step fails, organized by measurable categories",
+          "properties": {
+            "financial": {
+              "type": "string",
+              "description": "Money movement, transactions, revenue impact",
+              "examples": ["loan applications abandoned, revenue pipeline delays, processing cost increases"]
+            },
+            "legal_compliance": {
+              "type": "string", 
+              "description": "Regulatory requirements, risk management, compliance deadlines",
+              "examples": ["3-day disclosure violations, income verification compliance, regulatory reporting gaps"]
+            },
+            "operational": {
+              "type": "string",
+              "description": "Process efficiency, manual work, productivity impact", 
+              "examples": ["manual income verification required, loan officer productivity loss, processing delays"]
+            },
+            "customer_experience": {
+              "type": "string",
+              "description": "User interactions, satisfaction, service quality",
+              "examples": ["application status uncertainty, longer decision times, increased customer service calls"]
+            }
+          }
+        },
+        
+        "measurement_signals": {
+          "type": "string",
+          "description": "Field 6: How impact gets measured - signals that show each impact during incidents",
+          "examples": ["income verification failure rate, application abandonment rate, manual processing volume, customer service call volume"]
+        },
+        
+        "development_fields": {
+          "type": "object",
+          "description": "DEVELOPMENT PERSONA: Technical implementation and process signal definitions",
+          "properties": {
+            "technical_flow_description": {
+              "type": "string",
+              "description": "How the step is implemented technically - system-to-system flow",
+              "examples": ["Web App → (POST: PDF) → OCR Service → (Kafka: Parsed JSON) → Rules Engine"]
+            },
+            "observable_units": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the observable unit"
+                  },
+                  "description": {
+                    "type": "string", 
+                    "description": "What this unit does in the business step"
+                  },
+                  "tags": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["service", "function", "job", "module", "process", "pipeline"],
+                        "description": "Classification of the unit for pattern scaffolding"
+                      },
+                      "domain": {
+                        "type": "string",
+                        "description": "Business or technical domain",
+                        "examples": ["home_lending", "capital_markets", "servicing"]
+                      },
+                      "deployment": {
+                        "type": "string",
+                        "enum": ["VM", "Kubernetes", "mainframe", "on_prem", "cloud"],
+                        "description": "Where/how it runs"
+                      },
+                      "owner_team": {
+                        "type": "string",
+                        "description": "Team accountable for this unit",
+                        "examples": ["app_security", "loan_ops_platform", "payments_team"]
+                      },
+                      "criticality": {
+                        "type": "string",
+                        "enum": ["high", "medium", "low"],
+                        "description": "Relative risk or importance"
+                      },
+                      "language": {
+                        "type": "string",
+                        "description": "Implementation language",
+                        "examples": ["Java", "Python", "COBOL", "Node.js"]
+                      },
+                      "observability_level": {
+                        "type": "string",
+                        "enum": ["golden_signals", "metrics_only", "traces_enabled", "unknown"],
+                        "description": "Maturity of observability coverage"
+                      }
+                    },
+                    "required": ["type", "deployment", "criticality", "owner_team"]
+                  }
+                },
+                "required": ["name", "tags"]
+              },
+              "description": "Technical components that implement this step with complete metadata"
+            },
+            "process_signals": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Signal name that confirms workflow execution"
+                  },
+                  "component": {
+                    "type": "string",
+                    "description": "Process component being monitored"
+                  },
+                  "condition_trigger": {
+                    "type": "string",
+                    "description": "When this signal is emitted"
+                  },
+                  "purpose_interpretation": {
+                    "type": "string",
+                    "description": "What this signal confirms about process execution"
+                  },
+                  "signal_type": {
+                    "type": "string",
+                    "enum": ["process"],
+                    "description": "Always 'process' for this section"
+                  }
+                },
+                "required": ["name", "component", "condition_trigger", "purpose_interpretation"]
+              },
+              "description": "Signals that confirm execution of internal logic or control paths"
+            }
+          }
+        },
+        
+        "platform_sre_fields": {
+          "type": "object", 
+          "description": "PLATFORM SRE PERSONA: System health and infrastructure context",
+          "properties": {
+            "system_signals": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Signal name that reflects system infrastructure health"
+                  },
+                  "component": {
+                    "type": "string", 
+                    "description": "System component being monitored"
+                  },
+                  "condition_trigger": {
+                    "type": "string",
+                    "description": "When this signal indicates system issues"
+                  },
+                  "purpose_interpretation": {
+                    "type": "string",
+                    "description": "What this signal indicates about system health"
+                  },
+                  "signal_type": {
+                    "type": "string",
+                    "enum": ["system"],
+                    "description": "Always 'system' for this section"
+                  }
+                },
+                "required": ["name", "component", "condition_trigger", "purpose_interpretation"]
+              },
+              "description": "Signals that prove systems are up, stable, and performant"
+            },
+            "platform_deployment_tags": {
+              "type": "object",
+              "description": "Platform context for observable units",
+              "properties": {
+                "data_center": {
+                  "type": "string",
+                  "description": "Data center or region",
+                  "examples": ["us-central", "east-prod"]
+                },
+                "cluster": {
+                  "type": "string",
+                  "description": "Cluster or environment identifier"
+                },
+                "infra_tier": {
+                  "type": "string", 
+                  "description": "Infrastructure tier classification"
+                }
+              }
+            }
+          }
+        },
+        
+        "bos_system_fields": {
+          "type": "object",
+          "description": "BOS SYSTEM: Validation and structural enforcement",
+          "properties": {
+            "validation_status": {
+              "type": "object",
+              "properties": {
+                "completeness_score": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100,
+                  "description": "Percentage of required fields completed"
+                },
+                "traceability_validated": {
+                  "type": "boolean",
+                  "description": "Whether stakeholder → impact → signal traceability is complete"
+                },
+                "pattern_compliance": {
+                  "type": "object",
+                  "description": "Validation against expected patterns by observable unit type"
+                },
+                "missing_elements": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "List of missing required elements"
+                }
+              }
+            },
+            "generated_kpis": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "KPI name derived from business signals"
+                  },
+                  "formula": {
+                    "type": "string",
+                    "description": "How the KPI is calculated"
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "Target threshold or goal"
+                  },
+                  "linked_signals": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Signals that inform this KPI"
+                  },
+                  "impact_category": {
+                    "type": "string",
+                    "enum": ["financial", "legal_compliance", "operational", "customer_experience"],
+                    "description": "Which impact category this KPI measures"
+                  }
+                },
+                "required": ["name", "formula", "linked_signals", "impact_category"]
+              },
+              "description": "KPIs generated by BOS system based on stakeholder dependencies and signals"
+            }
+          }
+        }
+      },
+      
+      "required": ["metadata", "operational_description"],
+      "additionalProperties": false
+    }
+  },
+  
+  "definitions": {
+    "stakeholder_types": {
+      "enum": ["people", "business_entities", "vendors"]
+    },
+    "impact_categories": {
+      "enum": ["financial", "legal_compliance", "operational", "customer_experience"] 
+    },
+    "signal_types": {
+      "enum": ["business", "process", "system"]
+    }
+  }
+}

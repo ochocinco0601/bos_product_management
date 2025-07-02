@@ -1,0 +1,204 @@
+{
+  "flows": [
+    {
+      "id": "test_lm9tl322k",
+      "name": "Complete Signals Test - Income Verification",
+      "stages": [
+        {
+          "id": "test_9v56noqyc",
+          "name": "Pre-Application",
+          "steps": [
+            {
+              "id": "test_hxujs38hv",
+              "name": "Document Income Verification - Complete Signals",
+              "description": "Complete Step 5 implementation with all signal types defined",
+              "stakeholders": [
+                {
+                  "name": "Loan Applicant",
+                  "role": "Primary borrower",
+                  "type": "people"
+                },
+                {
+                  "name": "Loan Record",
+                  "role": "Application data",
+                  "type": "business"
+                },
+                {
+                  "name": "Equifax",
+                  "role": "Verification service",
+                  "type": "vendor"
+                }
+              ],
+              "dependencies": {
+                "Loan Applicant": "Fast processing, clear updates, accurate results",
+                "Loan Record": "Complete data, compliance validation, status updates",
+                "Equifax": "API authentication, proper requests, error handling"
+              },
+              "impacts": {
+                "Loan Applicant": {
+                  "financial": "Rate lock expiration cost: $2,000-5,000, Application abandonment rate: 15%",
+                  "legal": "FCRA disclosure timeline violations: 2-3 days past deadline",
+                  "operational": "Processing time extension: +15 days, Manual intervention rate: 35%",
+                  "customer_experience": "Portal login frequency: +300%, Customer service calls: +150%"
+                },
+                "Loan Record": {
+                  "financial": "Pipeline velocity impact: +5-7 days delay affecting quarterly targets",
+                  "legal": "QM rule compliance gap: Binary flag for regulatory requirement failure",
+                  "operational": "Queue time increase: +48-72 hours loan stuck in pending status",
+                  "customer_experience": "Status inquiry response time: +24-48 hour delay in accuracy"
+                },
+                "Equifax": {
+                  "financial": "Failed API transaction cost: Dollar amount of unused API calls",
+                  "legal": "Alternative data source usage: Count of non-standard verification methods",
+                  "operational": "API failure rate: 15% of verification attempts fail, Retry attempts: 3-5 additional calls",
+                  "customer_experience": "Service delivery SLA breach: Minutes/hours past committed response time"
+                }
+              },
+              "telemetry": {
+                "Loan Applicant": {
+                  "financial": {
+                    "telemetry_required": "Transaction cost tracking, application abandonment analytics",
+                    "data_sources": "CRM system, loan origination platform, cost accounting database",
+                    "observable_signals": "Rate lock expiration events, application status changes, cost per transaction"
+                  },
+                  "customer_experience": {
+                    "telemetry_required": "Web application access logs, user session analytics, support call tracking",
+                    "data_sources": "Customer portal web server logs, authentication system, call center CRM",
+                    "observable_signals": "Login frequency per customer ID, session duration metrics, support ticket creation rate"
+                  }
+                },
+                "Loan Record": {
+                  "operational": {
+                    "telemetry_required": "Workflow state tracking, queue time measurement, status transition logging",
+                    "data_sources": "Loan processing workflow engine, database audit logs, business process monitoring",
+                    "observable_signals": "Queue duration per status, processing stage completion times, manual intervention flags"
+                  }
+                },
+                "Equifax": {
+                  "operational": {
+                    "telemetry_required": "API call success/failure logs, retry attempt counters, service health monitoring",
+                    "data_sources": "Integration middleware logs, API gateway metrics, service mesh telemetry",
+                    "observable_signals": "API response codes, retry count per transaction, service availability metrics"
+                  }
+                }
+              },
+              "signals": {
+                "Loan Applicant": {
+                  "financial": {
+                    "business_signal": {
+                      "observable_unit": "Customer Portal Web Application",
+                      "signal_type": "Business Signal",
+                      "signal_name": "rate_lock_expiration_events",
+                      "instrumentation_details": "Counter metric tracking rate lock expiration events per customer per day. Increment when customer's rate lock expires before loan approval completion.",
+                      "threshold_conditions": "Alert when daily rate lock expirations exceed 5% of active applications",
+                      "implementation_notes": "Correlate with customer ID and loan application ID for business impact tracking"
+                    },
+                    "process_signal": {
+                      "observable_unit": "Loan Pricing Service",
+                      "signal_type": "Process Signal",
+                      "signal_name": "rate_lock_renewal_workflow_duration",
+                      "instrumentation_details": "Histogram measuring duration from rate lock expiration detection to renewal offer generation. Track workflow efficiency.",
+                      "threshold_conditions": "Alert when p95 renewal workflow time exceeds 4 hours",
+                      "implementation_notes": "Instrument RateLockService.processExpiration() method with OpenTelemetry duration tracking"
+                    },
+                    "system_signal": {
+                      "observable_unit": "Rate Lock Database",
+                      "signal_type": "System Signal",
+                      "signal_name": "rate_lock_db_query_performance",
+                      "instrumentation_details": "Database query response time for rate lock expiration checks. Monitor system health affecting business logic.",
+                      "threshold_conditions": "Alert when query response time p95 exceeds 500ms",
+                      "implementation_notes": "Monitor via database performance metrics and APM tooling"
+                    }
+                  },
+                  "customer_experience": {
+                    "business_signal": {
+                      "observable_unit": "Customer Portal Web Application",
+                      "signal_type": "Business Signal",
+                      "signal_name": "customer_portal_login_abandonment_rate",
+                      "instrumentation_details": "Percentage of customers with 3+ failed login attempts per day. Measures customer frustration impact.",
+                      "threshold_conditions": "Alert when daily abandonment rate exceeds 15% baseline",
+                      "implementation_notes": "Track via customer session analytics and authentication logs"
+                    },
+                    "process_signal": {
+                      "observable_unit": "Customer Authentication Service",
+                      "signal_type": "Process Signal",
+                      "signal_name": "auth_workflow_success_rate",
+                      "instrumentation_details": "Percentage of successful authentication workflows including password reset and MFA completion.",
+                      "threshold_conditions": "Alert when success rate drops below 95%",
+                      "implementation_notes": "Instrument AuthenticationService with success/failure counters"
+                    },
+                    "system_signal": {
+                      "observable_unit": "Authentication Infrastructure",
+                      "signal_type": "System Signal",
+                      "signal_name": "auth_service_response_time",
+                      "instrumentation_details": "Authentication service API response time distribution affecting user experience.",
+                      "threshold_conditions": "Alert when p95 response time exceeds 2 seconds",
+                      "implementation_notes": "Monitor via API gateway and service mesh metrics"
+                    }
+                  }
+                },
+                "Loan Record": {
+                  "operational": {
+                    "business_signal": {
+                      "observable_unit": "Loan Processing Workflow Engine",
+                      "signal_type": "Business Signal",
+                      "signal_name": "loan_processing_queue_backlog_size",
+                      "instrumentation_details": "Number of loan applications stuck in income verification status for >48 hours. Business process health indicator.",
+                      "threshold_conditions": "Alert when backlog exceeds 100 applications",
+                      "implementation_notes": "Query loan status database for applications in pending_income_verification state"
+                    },
+                    "process_signal": {
+                      "observable_unit": "Income Verification Workflow",
+                      "signal_type": "Process Signal",
+                      "signal_name": "income_verification_workflow_completion_rate",
+                      "instrumentation_details": "Percentage of income verification workflows completed within SLA timeframe (48 hours).",
+                      "threshold_conditions": "Alert when completion rate drops below 90%",
+                      "implementation_notes": "Track workflow state transitions in IncomeVerificationService"
+                    },
+                    "system_signal": {
+                      "observable_unit": "Workflow Database",
+                      "signal_type": "System Signal",
+                      "signal_name": "workflow_db_connection_pool_utilization",
+                      "instrumentation_details": "Database connection pool utilization affecting workflow processing capacity.",
+                      "threshold_conditions": "Alert when utilization exceeds 80%",
+                      "implementation_notes": "Monitor via database connection pool metrics and APM"
+                    }
+                  }
+                },
+                "Equifax": {
+                  "operational": {
+                    "business_signal": {
+                      "observable_unit": "Income Verification Integration",
+                      "signal_type": "Business Signal",
+                      "signal_name": "manual_income_verification_rate",
+                      "instrumentation_details": "Percentage of income verifications requiring manual processing due to API failures. Business efficiency indicator.",
+                      "threshold_conditions": "Alert when manual processing rate exceeds 10%",
+                      "implementation_notes": "Track verification method classification in loan processing system"
+                    },
+                    "process_signal": {
+                      "observable_unit": "Equifax Integration Service",
+                      "signal_type": "Process Signal",
+                      "signal_name": "equifax_api_retry_success_rate",
+                      "instrumentation_details": "Success rate of Equifax API calls after retry logic. Measures integration process resilience.",
+                      "threshold_conditions": "Alert when retry success rate drops below 85%",
+                      "implementation_notes": "Instrument EquifaxIntegrationService.callWithRetry() method"
+                    },
+                    "system_signal": {
+                      "observable_unit": "Equifax API Gateway",
+                      "signal_type": "System Signal",
+                      "signal_name": "equifax_api_response_time_p95",
+                      "instrumentation_details": "95th percentile response time for Equifax API calls. Infrastructure performance indicator.",
+                      "threshold_conditions": "Alert when p95 response time exceeds 5 seconds",
+                      "implementation_notes": "Monitor via API gateway metrics and external service monitoring"
+                    }
+                  }
+                }
+              },
+              "score": 100
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
